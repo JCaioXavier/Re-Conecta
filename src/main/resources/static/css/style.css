@@ -1,0 +1,175 @@
+/* 1. Importa a fonte Poppins do Google */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* 2. Variáveis de Cor e Estilo */
+:root {
+    --primary-green: #00B37E;
+    --border-radius-main: 16px;
+    --border-color-soft: #d1d5db; /* Cinza suave */
+}
+
+/* 3. Estilos do Body (Centralização) */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+
+    /* Centraliza o card no PC */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* 4. Container Principal (Mobile-First) */
+.login-container {
+    width: 100%;
+    min-height: 100vh; /* Ocupa a tela inteira no mobile */
+    background: white;
+    overflow: hidden; /* Garante que o conteúdo não vaze */
+    display: flex;
+    flex-direction: column;
+
+    /* Transição suave ao redimensionar */
+    transition: all 0.3s ease-out;
+}
+
+/* 5. Adaptação para Desktop (Layout de Card) */
+@media (min-width: 577px) {
+    body {
+        background-color: #e9ecef; /* Fundo do desktop */
+    }
+
+    .login-container {
+        max-width: 420px; /* Largura máxima do card */
+        min-height: auto; /* Altura automática no desktop */
+        height: auto;
+        border-radius: var(--border-radius-main);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+}
+
+/* 6. Cabeçalho Verde (Topo) */
+.header-green {
+    background-color: var(--primary-green);
+    padding: 15px 20px 0px 20px;
+    color: white;
+    border-bottom-left-radius: var(--border-radius-main);
+    border-bottom-right-radius: var(--border-radius-main);
+    position: relative;
+    z-index: 0;
+    min-height: 100px; /* Altura da "brecha" verde */
+}
+
+/* 7. Card Branco (Formulário) */
+.form-card {
+    background-color: white;
+    border-radius: var(--border-radius-main);
+    padding: 20px;
+    margin-top: -40px; /* Sobe por cima do verde */
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 -5px 15px rgba(0,0,0,0.05); /* Sombra da sobreposição */
+
+    /* Flex para empurrar "Cadastre-se" para baixo */
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 8. Estilos dos Campos de Input */
+.input-group-text {
+    background-color: transparent; /* <-- MUDANÇA APLICADA AQUI */
+    border: 1px solid var(--primary-green);
+}
+.input-group-text i {
+    color: #6c757d;
+    opacity: 0.4; /* Opacidade de 40% */
+}
+
+/* Regra Geral (Resetada) */
+.form-control {
+    border: 1px solid var(--primary-green);
+    font-weight: 500;
+}
+
+/* --- Layout [Icon | Input] (EMAIL) --- */
+
+/* Ícone da Esquerda (Envelope) */
+.input-group-text.border-end-0 {
+    border-right: none;
+    border-radius: 10px 0 0 10px;
+}
+/* Input da Direita (Email) */
+.form-control.border-start-0 {
+    border-left: none;
+    border-radius: 0 10px 10px 0;
+    padding-left: 0;
+}
+
+/* --- Layout [Input | Icon] (SENHA) --- */
+
+/* Input da Esquerda (Senha) */
+.form-control.border-end-0 {
+    border-right: none;
+    border-radius: 10px 0 0 10px;
+    padding-left: 1rem; /* Adiciona padding interno de volta */
+}
+/* Ícone da Direita (Olho) */
+.input-group-text.border-start-0 {
+    border-left: none;
+    border-radius: 0 10px 10px 0;
+}
+
+
+/* Remove a borda azul (sombra) do Bootstrap ao clicar */
+.form-control:focus {
+    border-color: var(--primary-green);
+}
+
+/* Placeholder com 40% de opacidade */
+.form-control::placeholder {
+    color: #6c757d;
+    opacity: 0.4;
+    font-weight: 400;
+}
+
+/* 9. Botão Principal */
+.btn-reconecta {
+    background-color: var(--primary-green);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    font-weight: 600; /* Um pouco mais forte */
+    font-size: 1rem;
+    transition: background-color 0.2s ease;
+}
+
+.btn-reconecta:hover {
+    background-color: #008a63; /* Verde mais escuro */
+    color: white;
+}
+
+/* 10. Botões Sociais */
+.social-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    margin: 0 8px;
+    color: #555;
+    background: #fff;
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.social-btn:hover {
+    background-color: #f0f0f0;
+    transform: translateY(-2px); /* Efeito sutil */
+}

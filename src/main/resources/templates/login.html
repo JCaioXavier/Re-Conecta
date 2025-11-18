@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Entrar no Re.conecta</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Links de Estilo -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap-icons/1.11.3/font/bootstrap-icons.css}" />
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+
+<!-- Container principal para centralização -->
+<div class="container-fluid d-flex justify-content-center align-items-center min-vh-100 p-0">
+
+    <!-- O Card que se adapta (App no mobile, Card no PC) -->
+    <div class="login-container d-flex flex-column">
+
+        <!-- 1. Cabeçalho Verde (Brecha de cima) -->
+        <div class="header-green">
+            <div class="d-flex justify-content-between align-items-center text-start px-2 py-1">
+                <span style="font-size: 0.9rem;">10:30</span>
+                <div>
+                    <i class="bi bi-reception-4 me-1"></i>
+                    <i class="bi bi-wifi me-1"></i>
+                    <i class="bi bi-battery-full"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Card Branco (Formulário) -->
+        <div class="p-4 form-card">
+
+            <!-- Logo (Ícone temporário) -->
+            <div class="text-center mb-4 mt-2">
+                <i class="bi bi-recycle text-success" style="font-size: 4rem;"></i>
+            </div>
+
+            <h3 class="text-center text-success fw-bold mb-4">Entrar No Re.conecta</h3>
+
+            <!-- Início do Formulário -->
+            <form th:action="@{/login}" method="post">
+
+                <!-- Mensagem de Erro (Se houver) -->
+                <div th:if="${param.error}" class="alert alert-danger py-2" style="font-size: 0.9rem;">
+                    <i class="bi bi-exclamation-triangle-fill"></i> Usuário ou senha incorretos.
+                </div>
+
+                <!-- Campo de Email (Layout: [Icon | Input]) -->
+                <div class="mb-3">
+                    <label class="fw-bold">Endereço de Email</label>
+                    <div class="input-group">
+                        <span class="input-group-text border-end-0"><i class="bi bi-envelope"></i></span>
+                        <input type="email" name="username" class="form-control border-start-0 ps-0" placeholder="Email" required="required" />
+                    </div>
+                </div>
+
+                <!-- Campo de Senha (Layout: [Icon | Input | Icon]) -->
+                <div class="mb-3">
+                    <label class="fw-bold">Senha</label>
+                    <div class="input-group">
+                        <!-- MUDANÇA: Ícone de Cadeado adicionado -->
+                        <span class="input-group-text border-end-0"><i class="bi bi-lock"></i></span>
+                        <!-- MUDANÇA: Input agora tem border-start-0 e border-end-0 -->
+                        <input type="password" name="password" class="form-control border-start-0 border-end-0 ps-0" placeholder="Senha" required="required" />
+                        <!-- Ícone do olho (já estava correto) -->
+                        <span class="input-group-text border-start-0"><i class="bi bi-eye"></i></span>
+                    </div>
+
+                    <!-- Link "Esqueci minha senha" alinhado à esquerda -->
+                    <div class="text-muted mt-2 text-start" style="font-size: 0.8rem;">
+                        <a href="#" class="text-decoration-none text-muted">Esqueci minha senha</a>
+                    </div>
+                </div>
+
+                <!-- Botão Entrar -->
+                <button type="submit" class="btn btn-reconecta w-100 mb-3 shadow-sm">Entrar</button>
+
+                <!-- Divisor "ou" -->
+                <div class="d-flex align-items-center mb-3">
+                    <hr class="flex-grow-1" />
+                    <span class="mx-2 text-muted" style="font-size: 0.9rem;">ou</span>
+                    <hr class="flex-grow-1" />
+                </div>
+
+                <!-- Botões Sociais -->
+                <div class="d-flex justify-content-center mb-4">
+                    <a href="#" class="social-btn shadow-sm"><i class="bi bi-google text-danger"></i></a>
+                    <a href="#" class="social-btn shadow-sm"><i class="bi bi-facebook text-primary"></i></a>
+                    <a href="#" class="social-btn shadow-sm"><i class="bi bi-apple text-dark"></i></a>
+                </div>
+
+                <!-- Link "Cadastre-se" (Fica no rodapé) -->
+                <div class="text-center fw-bold mt-auto">
+                    Não tem cadastro? <a href="/cadastro" class="text-success text-decoration-none">Cadastre-se</a>
+                </div>
+            </form>
+            <!-- Fim do Formulário -->
+        </div>
+        <!-- Fim do Card Branco -->
+    </div>
+    <!-- Fim do Login Container -->
+</div>
+
+</body>
+</html>
