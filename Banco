@@ -1,0 +1,165 @@
+create table cadastro_ponto_coleta(
+	id serial primary key,
+	cnpj varchar(18) not null,
+	razao_social varchar(150),
+	nome_fantasia varchar(150),
+	email_publico varchar(120) unique not null,
+	telefone_publico varchar(20),
+	cep varchar(9),
+	logradouro varchar(150),
+	numero varchar(10),
+	bairro varchar(150),
+	municipio varchar(100),
+	estado varchar(100),
+	horario_abertura time not null,
+	horario_fechamento time not null,
+	status_ponto varchar(50) default 'Pendente',
+	comprovante boolean default false
+);
+
+create table contatos_parceiro(
+	id serial primary key,
+	ponto_id integer references cadastro_ponto_coleta(id),
+	nome varchar(100) not null,
+	cpf varchar(14) not null,
+	cargo varchar(100),
+	email_interno varchar(120) unique not null,
+	telefone_interno varchar(20),
+	status varchar(50) default 'Ativo'
+);
+
+create table usuario_pessoa_fisica(
+	id serial primary key,
+	nome_completo varchar(150) not null,
+	cpf varchar(14) not null,
+	email varchar(120) unique not null,
+	telefone varchar(20),
+	senha varchar(200) not null,
+	status varchar(50) default 'Ativo',
+	data_cadastro date
+);
+
+create table endereco_pessoa_fisica(
+	id serial primary key,
+	usuario_id integer references usuario_pessoa_fisica(id),
+	cep varchar(9),
+	logradouro varchar(150),
+	numero varchar(150),
+	bairro varchar(150),
+	municipio varchar(150),
+	estado varchar(100),
+	complemento varchar(200)
+);
+
+create table coletas(
+	id serial primary key,
+	usuario_id integer references usuario_pessoa_fisica(id),
+	endereco_id integer references endereco_pessoa_fisica(id),
+	descicao text,
+	data_solicitacao timestamp default now(),
+	status varchar(50) default 'Pendente',
+	data_status timestamp
+);
+
+create table recompensas(
+	id serial primary key,
+	nome varchar(100),
+	descricao text,
+	custo_pontos integer,
+	status varchar(50) default 'Ativo'
+);
+
+create table pontos_usuario(
+	usuario_id integer primary key references usuario_pessoa_fisica(id),
+	pontos integer default 0
+);
+
+create table historico_pontos(
+	id serial primary key,
+	usuario_id integer references usuario_pessoa_fisica(id),
+	pontos integer,
+	operacao varchar(50),
+	motivo varchar(150),
+	data_operacao timestamp default now()
+);
+
+create table resgates(
+	id serial primary key ,
+	usuario_id integer references usuario_pessoa_fisica(id),
+	recompensa_id integer references recompensas(id),
+	pontos_debitados integer,
+	data_resgate timestamp default now(),
+	status varchar(50) default 'Solicitado'
+);
+
+create table logs_gerais (
+    id serial primary key,
+    tabela_afetada varchar(100),
+    operacao varchar(20),
+    registro_id integer,
+    usuario varchar(100),
+    data_operacao timestamp default now()
+);
+
+
+create or replace function atualizar_data_status()
+returns trigger as $$
+begin
+	new.data_status := now();
+	return new;
+end;
+$$ language plpgsql;
+
+create trigger trg_atualizar_data_status
+before update on coletas
+for each row
+execute function atualizar_data_status();
+
+
+create or replace function registrar_log()
+returns trigger as $$
+begin
+	insert into logs_gerais(tabela_afetada, operacao, registro_id, usuario)
+	values (tg_table_name, tg_op, coalesce(new.id, old.id), current_user);
+	return new;
+end;
+$$ language plpgsql;
+
+create trigger trg_log_pontos
+after insert or update or delete on cadastro_ponto_coleta
+for each row execute function registrar_log();
+
+create trigger trg_log_usuarios
+after insert or update or delete on usuario_pessoa_fisica
+for each row execute function registrar_log();
+
+
+create or replace function resgatar_recompensa(
+	p_usuario integer,
+	p_recompensa integer
+)
+returns text as $$
+declare
+	custo integer;
+	pontos_atual integer;
+begin
+	select custo_pontos into custo from recompensas where id = p_recompensa;
+	select pontos into pontos_atual from pontos_usuario where usuario_id = p_usuario;
+
+	if pontos_atual < custo then
+	return 'Pontos insuficientes';
+	end if;
+	
+	update pontos_usuario
+	set pontos = pontos - custo
+	where usuario_id = p_usuario;
+	
+	insert into pontos_historico(usuario_id, pontos, operacao, motivo)
+	values (p_usuario, -custo, 'Debito', 'Resgate de recompensa');
+	
+	insert into resgates(usuario_id, recompensa_id, pontos_debitados)
+	values (p_usuario, p_recompensa, custo);
+	
+	return 'Resgate concluido com sucesso';
+end;
+$$ language plpgsql;
