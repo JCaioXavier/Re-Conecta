@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Cadastro Representante - Re.conecta</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap-icons/1.11.3/font/bootstrap-icons.css}" />
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+
+<div class="container-fluid d-flex justify-content-center align-items-center min-vh-100 p-0">
+    <div class="login-container d-flex flex-column">
+
+        <!-- Cabeçalho Verde -->
+        <div class="header-green d-flex align-items-center justify-content-center position-relative pt-4 pb-5">
+            <!-- Botão Voltar (Volta para a etapa anterior de dados da empresa) -->
+            <a href="/cadastro-pj-empresa" class="text-white position-absolute start-0 ms-3 text-decoration-none" style="top: 20px; font-size: 1.5rem;">
+                <i class="bi bi-arrow-left"></i>
+            </a>
+
+            <!-- Título Centralizado -->
+            <h4 class="fw-bold m-0 text-white">Cadastro Re.conecta</h4>
+        </div>
+
+        <!-- Card Branco -->
+        <div class="p-4 form-card">
+
+            <form th:action="@{/login}" method="post">
+
+                <!-- 1. Nome Completo -->
+                <div class="mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text border-end-0"><i class="bi bi-person"></i></span>
+                        <input type="text" name="nomeCompleto" class="form-control border-start-0 border-end-0 ps-0" placeholder="Nome completo" required="required" />
+                        <!-- Asterisco Verde Suave -->
+                        <span class="input-group-text border-start-0 ps-0 bg-transparent"><i class="bi bi-asterisk" style="font-size: 0.5rem; color: var(--primary-black); opacity: 0.5;"></i></span>
+                    </div>
+                </div>
+
+                <!-- 2. CPF -->
+                <div class="mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text border-end-0"><i class="bi bi-file-earmark-text"></i></span>
+                        <input type="text" name="cpf" class="form-control border-start-0 border-end-0 ps-0" placeholder="CPF" required="required" />
+                        <span class="input-group-text border-start-0 ps-0 bg-transparent"><i class="bi bi-asterisk" style="font-size: 0.5rem; color: var(--primary-black); opacity: 0.5;"></i></span>
+                    </div>
+                </div>
+
+                <!-- 3. Email (Interno) -->
+                <div class="mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text border-end-0"><i class="bi bi-envelope"></i></span>
+                        <input type="email" name="email" class="form-control border-start-0 border-end-0 ps-0" placeholder="Email (Interno)" required="required" />
+                        <span class="input-group-text border-start-0 ps-0 bg-transparent"><i class="bi bi-asterisk" style="font-size: 0.5rem; color: var(--primary-black); opacity: 0.5;"></i></span>
+                    </div>
+                </div>
+
+                <!-- 4. Cargo -->
+                <div class="mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text border-end-0"><i class="bi bi-briefcase"></i></span>
+                        <input type="text" name="cargo" class="form-control border-start-0 border-end-0 ps-0" placeholder="Cargo" required="required" />
+                        <span class="input-group-text border-start-0 ps-0 bg-transparent"><i class="bi bi-asterisk" style="font-size: 0.5rem; color: var(--primary-black); opacity: 0.5;"></i></span>
+                    </div>
+                </div>
+
+                <!-- 5. Telefone (Interno) -->
+                <div class="mb-5">
+                    <div class="input-group">
+                        <span class="input-group-text border-end-0"><i class="bi bi-telephone"></i></span>
+                        <input type="tel" name="telefone" class="form-control border-start-0 border-end-0 ps-0" placeholder="Telefone (Interno)" required="required" />
+                        <span class="input-group-text border-start-0 ps-0 bg-transparent"><i class="bi bi-asterisk" style="font-size: 0.5rem; color: var(--primary-black); opacity: 0.5;"></i></span>
+                    </div>
+                </div>
+
+                <!-- Botão Cadastrar -->
+                <button type="submit" class="btn btn-reconecta w-100 mb-3 shadow-sm mt-auto">Cadastrar</button>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

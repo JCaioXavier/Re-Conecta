@@ -4,8 +4,10 @@
 /* 2. Variáveis de Cor e Estilo */
 :root {
     --primary-green: #00B37E;
+    --primary-green-dark: #0B5C44; /* Cor das bordas escuras */
+    --primary-black: #333333;
     --border-radius-main: 16px;
-    --border-color-soft: #d1d5db; /* Cinza suave */
+    --border-color-soft: #d1d5db;
 }
 
 /* 3. Estilos do Body (Centralização) */
@@ -14,8 +16,6 @@ body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
-
-    /* Centraliza o card no PC */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -30,8 +30,6 @@ body {
     overflow: hidden; /* Garante que o conteúdo não vaze */
     display: flex;
     flex-direction: column;
-
-    /* Transição suave ao redimensionar */
     transition: all 0.3s ease-out;
 }
 
@@ -59,10 +57,10 @@ body {
     border-bottom-right-radius: var(--border-radius-main);
     position: relative;
     z-index: 0;
-    min-height: 100px; /* Altura da "brecha" verde */
+    min-height: 80px; /* Altura da "brecha" verde */
 }
 
-/* 7. Card Branco (Formulário) */
+/* 7. Card Branco (Formulário Geral) */
 .form-card {
     background-color: white;
     border-radius: var(--border-radius-main);
@@ -78,10 +76,10 @@ body {
     flex-direction: column;
 }
 
-/* 8. Estilos dos Campos de Input */
+/* 8. Estilos dos Campos de Input (Padrão) */
 .input-group-text {
-    background-color: transparent; /* <-- MUDANÇA APLICADA AQUI */
-    border: 1px solid var(--primary-green);
+    background-color: transparent;
+    border: 1px solid #0B5C44; /* Borda verde escura */
 }
 .input-group-text i {
     color: #6c757d;
@@ -90,41 +88,43 @@ body {
 
 /* Regra Geral (Resetada) */
 .form-control {
-    border: 1px solid var(--primary-green);
+    border: 1px solid #0B5C44; /* Borda verde escura */
     font-weight: 500;
 }
 
-/* --- Layout [Icon | Input] (EMAIL) --- */
-
-/* Ícone da Esquerda (Envelope) */
+/* --- Layout [Icon | Input] (EMAIL/CPF) --- */
 .input-group-text.border-end-0 {
     border-right: none;
     border-radius: 10px 0 0 10px;
 }
-/* Input da Direita (Email) */
 .form-control.border-start-0 {
     border-left: none;
     border-radius: 0 10px 10px 0;
     padding-left: 0;
 }
 
-/* --- Layout [Input | Icon] (SENHA) --- */
-
-/* Input da Esquerda (Senha) */
+/* --- Layout [Input | Icon] (SENHA ANTIGA) --- */
 .form-control.border-end-0 {
     border-right: none;
     border-radius: 10px 0 0 10px;
     padding-left: 1rem; /* Adiciona padding interno de volta */
 }
-/* Ícone da Direita (Olho) */
 .input-group-text.border-start-0 {
     border-left: none;
     border-radius: 0 10px 10px 0;
 }
 
+/* --- Layout [Icon | Input | Icon] (SENHA NOVA) --- */
+.form-control.border-start-0.border-end-0 {
+    border-left: none;
+    border-right: none;
+    border-radius: 0; /* Remove todo o arredondamento */
+    padding-left: 0;
+}
 
-/* Remove a borda azul (sombra) do Bootstrap ao clicar */
+/* Efeitos de Focus */
 .form-control:focus {
+    box-shadow: none;
     border-color: var(--primary-green);
 }
 
@@ -142,13 +142,13 @@ body {
     border: none;
     border-radius: 10px;
     padding: 12px;
-    font-weight: 600; /* Um pouco mais forte */
+    font-weight: 600;
     font-size: 1rem;
     transition: background-color 0.2s ease;
 }
 
 .btn-reconecta:hover {
-    background-color: #008a63; /* Verde mais escuro */
+    background-color: var(--primary-green-dark);
     color: white;
 }
 
@@ -172,4 +172,178 @@ body {
 .social-btn:hover {
     background-color: #f0f0f0;
     transform: translateY(-2px); /* Efeito sutil */
+}
+
+
+/* ===========================================================
+   ESTILOS ESPECÍFICOS PARA PESSOA JURÍDICA (PJ)
+   =========================================================== */
+
+/* --- Estrutura de Containers (Horário, Itens e Endereço) --- */
+
+.schedule-box {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    margin-bottom: 1.5rem;
+}
+
+.schedule-header {
+    background-color: white;
+    padding: 15px 20px;
+    font-size: 1rem;
+    color: #888; /* Cinza do texto */
+    font-weight: 400;
+
+    /* ESTILO DE CARD FLUTUANTE */
+    border-radius: 16px; /* Arredondado completo */
+    position: relative;
+    z-index: 5; /* Garante que fique NA FRENTE do verde */
+
+    /* Sombra Sólida Inferior (Linha Verde Escura) */
+    box-shadow: 0 1px 0 0 #0B5C44;
+
+    /* Borda Sólida em volta */
+    border: 1px solid #0B5C44;
+    border-bottom: none; /* Remove a borda de baixo para a sombra sólida funcionar melhor */
+}
+
+.schedule-body {
+    background-color: var(--primary-green);
+    padding: 15px;
+
+    /* O TRUQUE DA SOBREPOSIÇÃO */
+    margin-top: -25px; /* Puxa o verde para cima, para entrar debaixo do branco */
+    padding-top: 40px; /* Empurra o conteúdo para baixo para não ficar escondido */
+
+    border-radius: 0 0 16px 16px; /* Arredonda apenas a parte de baixo */
+    position: relative;
+    z-index: 1; /* Fica ATRÁS do branco */
+
+    /* Sombra de profundidade no corpo verde */
+    box-shadow: 0 10px 20px -5px rgba(0, 179, 126, 0.3);
+}
+
+/* --- Estilo dos Inputs dentro do Corpo Verde (Endereço) --- */
+.schedule-body .form-control {
+    background-color: white;
+    /* Borda escura de 1px */
+    border: 1px solid #0B5C44;
+    border-radius: 10px;
+    height: 50px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Sombra leve interna */
+    color: #333;
+    font-weight: 500;
+}
+
+/* Cor e Opacidade do Placeholder IGUAIS ao Nome Fantasia */
+.schedule-body .form-control::placeholder {
+    color: #6c757d;
+    opacity: 0.4;
+    font-weight: 400;
+}
+
+/* Ajuste para Input Groups dentro do Verde (ex: CEP) */
+.schedule-body .input-group {
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    /* Borda escura de 1px no grupo também */
+    border: 1px solid #0B5C44;
+}
+.schedule-body .input-group .form-control {
+    box-shadow: none;
+    border-radius: 0;
+    height: 50px;
+    /* Remove a borda do input interno para não duplicar */
+    border: none;
+}
+.schedule-body .input-group .input-group-text {
+    border: none;
+    background-color: white;
+    padding-right: 15px;
+}
+.schedule-body .input-group .input-group-text i {
+    color: var(--primary-green); /* Ícone verde para destaque */
+}
+
+
+/* --- Cards Brancos (Horário e Itens) --- */
+.time-card {
+    background: white;
+    border-radius: 12px;
+    padding: 10px 8px;
+    text-align: center;
+
+    /* Flexbox para centralizar */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 75px;
+    height: 100%; /* Para cards de itens ficarem iguais na mesma linha */
+
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+
+    /* Borda Sólida Verde Escura nos Cards */
+    border: 1px solid #0B5C44;
+}
+
+.time-label {
+    font-size: 0.8rem;
+    color: #adb5bd; /* Label cinza claro */
+    margin-bottom: 0;
+    line-height: 1.2;
+}
+
+/* Texto dentro dos cards de itens */
+.item-text {
+    font-weight: 600;
+    color: #333;
+    font-size: 0.85rem;
+    line-height: 1.3;
+}
+
+/* Selects de Horário (Design Limpo sem Setas) */
+.time-select {
+    border: none;
+    background: transparent;
+    width: 100%;
+    font-weight: 600;
+    color: #000;
+    font-size: 1rem;
+
+    /* Remove setas nativas */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    text-align: center;
+    text-align-last: center; /* Garante centro no Chrome/Safari */
+
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+}
+.time-select:focus {
+    outline: none;
+}
+
+/* --- Radio Button Customizado (Lista de Itens) --- */
+.custom-radio {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    background-color: #e0e0e0;
+    appearance: none;
+    cursor: pointer;
+    flex-shrink: 0;
+    margin-left: 10px;
+}
+.custom-radio:checked {
+    background-color: var(--primary-green);
+    border-color: var(--primary-green);
 }
