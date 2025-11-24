@@ -26,16 +26,19 @@
         <div class="p-4 form-card">
 
             <!-- Action aponta para a rota POST do Controller que leva ao próximo passo -->
-            <form th:action="@{/cadastro-pj-empresa}" method="post">
+            <form th:action="@{/cadastro-pj-empresa}" method="post" onsubmit="return validarFormulario()">
+
+                <div id="erro-itens" class="text-white small mt-2 text-center" style="display: none;">Selecione pelo menos um item</div>
 
                 <!-- ================= PARTE 1: DADOS BÁSICOS ================= -->
 
                 <div class="mb-3">
                     <div class="input-group">
                         <span class="input-group-text border-end-0"><i class="bi bi-building"></i></span>
-                        <input type="text" name="cnpj" class="form-control border-start-0 border-end-0 ps-0" placeholder="CNPJ" required="required" />
+                        <input type="text" id="cnpj" name="cnpj" class="form-control border-start-0 border-end-0 ps-0" placeholder="CNPJ (00.000.000/0000-00)" required="required" oninput="mascaraCNPJ(this)" maxlength="18" />
                         <span class="input-group-text border-start-0 ps-0 bg-transparent"><i class="bi bi-asterisk" style="font-size: 0.5rem; color: var(--primary-black); opacity: 0.5;"></i></span>
                     </div>
+                    <div id="erro-cnpj" class="text-danger small mt-1" style="display: none;">CNPJ incompleto (deve ter 14 dígitos).</div>
                 </div>
 
                 <div class="mb-3">
@@ -57,31 +60,30 @@
                 <!-- ================= PARTE 2: ENDEREÇO (DESIGN UNIFICADO) ================= -->
 
                 <div class="schedule-box">
-                    <!-- Cabeçalho Branco -->
                     <div class="schedule-header d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center">
-                            <i class="bi bi-geo-alt me-2"></i>
-                            <span>Endereço</span>
+                            <i class="bi bi-geo-alt me-2"></i> <span>Endereço</span>
                         </div>
                         <i class="bi bi-asterisk" style="font-size: 0.5rem; color: var(--primary-black); opacity: 0.5;"></i>
                     </div>
 
-                    <!-- Corpo Verde -->
                     <div class="schedule-body">
-                        <!-- CEP -->
+                        <!-- CEP: Adicionado ID e evento onblur -->
                         <div class="mb-3">
                             <div class="input-group">
-                                <input type="text" name="cep" class="form-control" placeholder="CEP" required="required" />
+                                <input type="text" id="cep" name="cep" class="form-control" placeholder="CEP (00000-000)" required="required" oninput="mascaraCEP(this)" onblur="buscarEndereco(this.value)" maxlength="9" />
                                 <span class="input-group-text"><i class="bi bi-search" style="color: var(--primary-black);"></i></span>
                             </div>
+                            <div id="erro-cep" class="text-white small mt-1" style="display: none;">CEP não encontrado.</div>
                         </div>
 
-                        <div class="mb-3"><input type="text" name="endereco" class="form-control" placeholder="Endereço" required="required" /></div>
-                        <div class="mb-3"><input type="text" name="logradouro" class="form-control" placeholder="Logradouro" required="required" /></div>
-                        <div class="mb-3"><input type="text" name="numero" class="form-control" placeholder="Número" required="required" /></div>
-                        <div class="mb-3"><input type="text" name="bairro" class="form-control" placeholder="Bairro" required="required" /></div>
-                        <div class="mb-3"><input type="text" name="municipio" class="form-control" placeholder="Município" required="required" /></div>
-                        <div class="mb-3"><input type="text" name="estado" class="form-control" placeholder="Estado" required="required" /></div>
+                        <!-- IDs adicionados para o JS preencher -->
+                        <div class="mb-3"><input type="text" id="endereco" name="endereco" class="form-control" placeholder="Endereço (Preenchimento Automático)" readonly="readonly" /></div> <!-- Readonly para evitar edição errada -->
+                        <div class="mb-3"><input type="text" id="logradouro" name="logradouro" class="form-control" placeholder="Logradouro" required="required" /></div>
+                        <div class="mb-3"><input type="text" id="numero" name="numero" class="form-control" placeholder="Número" required="required" /></div>
+                        <div class="mb-3"><input type="text" id="bairro" name="bairro" class="form-control" placeholder="Bairro" required="required" /></div>
+                        <div class="mb-3"><input type="text" id="municipio" name="municipio" class="form-control" placeholder="Município" required="required" /></div>
+                        <div class="mb-3"><input type="text" id="estado" name="estado" class="form-control" placeholder="Estado (UF)" required="required" maxlength="2" /></div>
                         <div class="mb-0"><input type="text" name="complemento" class="form-control" placeholder="Complemento" /></div>
                     </div>
                 </div>
@@ -229,6 +231,80 @@
         </div>
     </div>
 </div>
+    <script>
+        function mascaraCNPJ(i) {
+            var v = i.value;
+            if(isNaN(v[v.length-1])){ i.value = v.substring(0, v.length-1); return; }
+            i.setAttribute("maxlength", "18");
+            v = v.replace(/\D/g, "").replace(/^(\d{2})(\d)/, "$1.$2").replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3").replace(/\.(\d{3})(\d)/, ".$1/$2").replace(/(\d{4})(\d)/, "$1-$2");
+            i.value = v;
+        }
 
+        function mascaraCEP(i) {
+            var v = i.value;
+            if(isNaN(v[v.length-1])){ i.value = v.substring(0, v.length-1); return; }
+            i.setAttribute("maxlength", "9");
+            v = v.replace(/\D/g, "").replace(/^(\d{5})(\d)/, "$1-$2");
+            i.value = v;
+        }
+
+        // --- FUNÇÃO DE BUSCA DE ENDEREÇO (VIA CEP) ---
+        function buscarEndereco(cep) {
+            // Remove caracteres não numéricos
+            var cepLimpo = cep.replace(/\D/g, '');
+
+            if (cepLimpo.length === 8) {
+                // URL da API do ViaCEP
+                var url = 'https://viacep.com.br/ws/' + cepLimpo + '/json/';
+
+                // Faz a requisição
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (!data.erro) {
+                            // Preenche os campos com os dados recebidos
+                            document.getElementById('endereco').value = data.logradouro;
+                            document.getElementById('logradouro').value = data.logradouro;
+                            document.getElementById('bairro').value = data.bairro;
+                            document.getElementById('municipio').value = data.localidade;
+                            document.getElementById('estado').value = data.uf;
+
+                            // Foca no campo 'número' para o usuário digitar
+                            document.getElementById('numero').focus();
+                            document.getElementById('erro-cep').style.display = 'none';
+                        } else {
+                            // CEP não encontrado
+                            document.getElementById('erro-cep').style.display = 'block';
+                            limparFormularioCep();
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erro ao buscar CEP:', error);
+                        document.getElementById('erro-cep').style.display = 'block';
+                    });
+            }
+        }
+
+        function limparFormularioCep() {
+            document.getElementById('endereco').value = "";
+            document.getElementById('logradouro').value = "";
+            document.getElementById('bairro').value = "";
+            document.getElementById('municipio').value = "";
+            document.getElementById('estado').value = "";
+        }
+
+        function validarFormulario() {
+            var cnpj = document.getElementById("cnpj").value;
+            var erroCnpj = document.getElementById("erro-cnpj");
+            if (cnpj.length < 18) {
+                erroCnpj.style.display = "block";
+                document.getElementById("cnpj").focus();
+                return false;
+            } else {
+                erroCnpj.style.display = "none";
+                return true;
+            }
+        }
+    </script>
 </body>
 </html>

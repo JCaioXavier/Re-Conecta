@@ -4,13 +4,13 @@
 /* 2. Variáveis de Cor e Estilo */
 :root {
     --primary-green: #00B37E;
-    --primary-green-dark: #0B5C44; /* Cor das bordas escuras */
-    --primary-black: #333333;
+    --primary-green-dark: #0B5C44;
+    --primary-black: #29292e;
     --border-radius-main: 16px;
     --border-color-soft: #d1d5db;
 }
 
-/* 3. Estilos do Body (Centralização) */
+/* 3. Estilos do Body */
 body {
     background-color: #f8f9fa;
     font-family: 'Poppins', sans-serif;
@@ -22,33 +22,86 @@ body {
     min-height: 100vh;
 }
 
-/* 4. Container Principal (Mobile-First) */
-.login-container {
+/* 4. Container Principal */
+.login-container, .home-container {
     width: 100%;
-    min-height: 100vh; /* Ocupa a tela inteira no mobile */
+    min-height: 100vh;
     background: white;
-    overflow: hidden; /* Garante que o conteúdo não vaze */
+    overflow-x: hidden;
     display: flex;
     flex-direction: column;
-    transition: all 0.3s ease-out;
+    position: relative;
 }
 
-/* 5. Adaptação para Desktop (Layout de Card) */
-@media (min-width: 577px) {
+/* ===========================================================
+   ADAPTAÇÃO PARA DESKTOP (16:9 e telas maiores)
+   =========================================================== */
+@media (min-width: 992px) {
     body {
-        background-color: #e9ecef; /* Fundo do desktop */
+        background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
     }
 
     .login-container {
-        max-width: 420px; /* Largura máxima do card */
-        min-height: auto; /* Altura automática no desktop */
+        max-width: 450px;
+        min-height: auto;
         height: auto;
-        border-radius: var(--border-radius-main);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        border-radius: 24px;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+        margin: 20px auto;
+        overflow: hidden;
+    }
+
+    /* --- HOME: Tela Cheia (Dashboard) --- */
+    .home-container {
+        max-width: 1200px;
+        height: 90vh;
+        border-radius: 24px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        margin: auto;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .home-header {
+        padding: 25px 40px 60px 40px !important;
+    }
+
+    .home-body {
+        padding: 40px !important;
+        overflow-y: auto;
+    }
+
+    .desktop-content-wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1.2fr;
+        gap: 40px;
+        align-items: start;
+    }
+
+    .status-bar-fake { display: none !important; }
+
+    /* CORREÇÃO NAVBAR DESKTOP:
+       Em vez de tentar posicionar com left/transform, usamos flexbox no container pai
+       para centralizar. Mas como é absolute, garantimos width 100% do pai.
+    */
+    .bottom-nav-wrapper {
+        position: absolute;
+        bottom: 30px;
+        left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center; /* Garante o centro */
+        pointer-events: none;
     }
 }
 
-/* 6. Cabeçalho Verde (Topo) */
+
+/* ===========================================================
+   ESTILOS GERAIS DE UI (Login/Cadastro)
+   =========================================================== */
+
+/* Cabeçalho Verde (Topo) */
 .header-green {
     background-color: var(--primary-green);
     padding: 15px 20px 0px 20px;
@@ -57,10 +110,10 @@ body {
     border-bottom-right-radius: var(--border-radius-main);
     position: relative;
     z-index: 0;
-    min-height: 80px; /* Altura da "brecha" verde */
+    min-height: 80px;
 }
 
-/* 7. Card Branco (Formulário Geral) */
+/* Card Branco (Formulário) */
 .form-card {
     background-color: white;
     border-radius: var(--border-radius-main);
@@ -68,119 +121,62 @@ body {
     margin-top: -40px; /* Sobe por cima do verde */
     position: relative;
     z-index: 1;
-    box-shadow: 0 -5px 15px rgba(0,0,0,0.05); /* Sombra da sobreposição */
-
-    /* Flex para empurrar "Cadastre-se" para baixo */
     flex-grow: 1;
+    box-shadow: 0 -5px 15px rgba(0,0,0,0.05);
     display: flex;
     flex-direction: column;
 }
 
-/* 8. Estilos dos Campos de Input (Padrão) */
+/* --- Inputs Padrão --- */
 .input-group-text {
     background-color: transparent;
     border: 1px solid #0B5C44; /* Borda verde escura */
 }
 .input-group-text i {
     color: #6c757d;
-    opacity: 0.4; /* Opacidade de 40% */
+    opacity: 0.4;
 }
 
-/* Regra Geral (Resetada) */
 .form-control {
-    border: 1px solid #0B5C44; /* Borda verde escura */
+    border: 1px solid #0B5C44;
     font-weight: 500;
 }
 
-/* --- Layout [Icon | Input] (EMAIL/CPF) --- */
-.input-group-text.border-end-0 {
-    border-right: none;
-    border-radius: 10px 0 0 10px;
-}
-.form-control.border-start-0 {
-    border-left: none;
-    border-radius: 0 10px 10px 0;
-    padding-left: 0;
-}
-
-/* --- Layout [Input | Icon] (SENHA ANTIGA) --- */
-.form-control.border-end-0 {
-    border-right: none;
-    border-radius: 10px 0 0 10px;
-    padding-left: 1rem; /* Adiciona padding interno de volta */
-}
-.input-group-text.border-start-0 {
-    border-left: none;
-    border-radius: 0 10px 10px 0;
-}
-
-/* --- Layout [Icon | Input | Icon] (SENHA NOVA) --- */
-.form-control.border-start-0.border-end-0 {
-    border-left: none;
-    border-right: none;
-    border-radius: 0; /* Remove todo o arredondamento */
-    padding-left: 0;
-}
+/* Layouts de Borda (Esquerda/Direita) */
+.input-group-text.border-end-0 { border-right: none; border-radius: 10px 0 0 10px; }
+.form-control.border-start-0 { border-left: none; border-radius: 0 10px 10px 0; padding-left: 0; }
+.form-control.border-end-0 { border-right: none; border-radius: 10px 0 0 10px; padding-left: 1rem; }
+.input-group-text.border-start-0 { border-left: none; border-radius: 0 10px 10px 0; }
+.form-control.border-start-0.border-end-0 { border-left: none; border-right: none; border-radius: 0; padding-left: 0; }
 
 /* Efeitos de Focus */
-.form-control:focus {
-    box-shadow: none;
-    border-color: var(--primary-green);
-}
+.form-control:focus { box-shadow: none; border-color: var(--primary-green); }
+.form-control::placeholder { color: #6c757d; opacity: 0.4; font-weight: 400; }
 
-/* Placeholder com 40% de opacidade */
-.form-control::placeholder {
-    color: #6c757d;
-    opacity: 0.4;
-    font-weight: 400;
-}
-
-/* 9. Botão Principal */
+/* --- Botões --- */
 .btn-reconecta {
     background-color: var(--primary-green);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    padding: 12px;
-    font-weight: 600;
-    font-size: 1rem;
+    color: white; border: none;
+    border-radius: 10px; padding: 12px;
+    font-weight: 600; font-size: 1rem;
     transition: background-color 0.2s ease;
 }
+.btn-reconecta:hover { background-color: var(--primary-green-dark); color: white; }
 
-.btn-reconecta:hover {
-    background-color: var(--primary-green-dark);
-    color: white;
-}
-
-/* 10. Botões Sociais */
 .social-btn {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    border: 1px solid #e0e0e0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.3rem;
-    margin: 0 8px;
-    color: #555;
-    background: #fff;
-    text-decoration: none;
-    transition: all 0.2s ease-in-out;
+    width: 48px; height: 48px; border-radius: 12px; border: 1px solid #e0e0e0;
+    display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
+    margin: 0 8px; color: #555; background: #fff; text-decoration: none;
+    transition: transform 0.2s;
 }
-
-.social-btn:hover {
-    background-color: #f0f0f0;
-    transform: translateY(-2px); /* Efeito sutil */
-}
+.social-btn:hover { transform: translateY(-2px); background-color: #f0f0f0; }
 
 
 /* ===========================================================
-   ESTILOS ESPECÍFICOS PARA PESSOA JURÍDICA (PJ)
+   ESTILOS ESPECÍFICOS PARA CADASTRO PJ (Cards e Listas)
    =========================================================== */
 
-/* --- Estrutura de Containers (Horário, Itens e Endereço) --- */
-
+/* Container de Seção (Horário, Itens, Endereço) */
 .schedule-box {
     background-color: transparent;
     border: none;
@@ -188,162 +184,313 @@ body {
     margin-bottom: 1.5rem;
 }
 
+/* Cabeçalho Branco Flutuante */
 .schedule-header {
-    background-color: white;
-    padding: 15px 20px;
-    font-size: 1rem;
-    color: #888; /* Cinza do texto */
-    font-weight: 400;
-
-    /* ESTILO DE CARD FLUTUANTE */
-    border-radius: 16px; /* Arredondado completo */
-    position: relative;
-    z-index: 5; /* Garante que fique NA FRENTE do verde */
-
-    /* Sombra Sólida Inferior (Linha Verde Escura) */
+    background: white; padding: 15px 20px; font-size: 1rem; color: #888; font-weight: 400;
+    border-radius: 16px; position: relative; z-index: 5;
+    /* Sombra sólida inferior */
     box-shadow: 0 1px 0 0 #0B5C44;
-
-    /* Borda Sólida em volta */
-    border: 1px solid #0B5C44;
-    border-bottom: none; /* Remove a borda de baixo para a sombra sólida funcionar melhor */
+    border: 1px solid #0B5C44; border-bottom: none;
 }
 
+/* Corpo Verde */
 .schedule-body {
-    background-color: var(--primary-green);
-    padding: 15px;
-
-    /* O TRUQUE DA SOBREPOSIÇÃO */
-    margin-top: -25px; /* Puxa o verde para cima, para entrar debaixo do branco */
-    padding-top: 40px; /* Empurra o conteúdo para baixo para não ficar escondido */
-
-    border-radius: 0 0 16px 16px; /* Arredonda apenas a parte de baixo */
-    position: relative;
-    z-index: 1; /* Fica ATRÁS do branco */
-
-    /* Sombra de profundidade no corpo verde */
+    background: var(--primary-green); padding: 15px; margin-top: -25px; padding-top: 40px;
+    border-radius: 0 0 16px 16px; position: relative; z-index: 1;
     box-shadow: 0 10px 20px -5px rgba(0, 179, 126, 0.3);
 }
 
-/* --- Estilo dos Inputs dentro do Corpo Verde (Endereço) --- */
+/* Inputs dentro do corpo verde (Endereço) */
 .schedule-body .form-control {
-    background-color: white;
-    /* Borda escura de 1px */
-    border: 1px solid #0B5C44;
-    border-radius: 10px;
-    height: 50px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Sombra leve interna */
-    color: #333;
-    font-weight: 500;
+    background: white; border: 1px solid #0B5C44; border-radius: 10px; height: 50px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05); color: #333; font-weight: 500;
 }
-
-/* Cor e Opacidade do Placeholder IGUAIS ao Nome Fantasia */
-.schedule-body .form-control::placeholder {
-    color: #6c757d;
-    opacity: 0.4;
-    font-weight: 400;
-}
-
-/* Ajuste para Input Groups dentro do Verde (ex: CEP) */
 .schedule-body .input-group {
-    background-color: white;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    /* Borda escura de 1px no grupo também */
-    border: 1px solid #0B5C44;
+    background: white; border-radius: 10px; overflow: hidden;
+    border: 1px solid #0B5C44; box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
-.schedule-body .input-group .form-control {
-    box-shadow: none;
-    border-radius: 0;
-    height: 50px;
-    /* Remove a borda do input interno para não duplicar */
-    border: none;
-}
-.schedule-body .input-group .input-group-text {
-    border: none;
-    background-color: white;
-    padding-right: 15px;
-}
-.schedule-body .input-group .input-group-text i {
-    color: var(--primary-green); /* Ícone verde para destaque */
-}
+.schedule-body .input-group .form-control { border: none; box-shadow: none; }
+.schedule-body .input-group .input-group-text { border: none; background: white; padding-right: 15px; }
+.schedule-body .input-group .input-group-text i { color: var(--primary-green); }
 
-
-/* --- Cards Brancos (Horário e Itens) --- */
+/* Cards Brancos Pequenos (Horário e Itens) */
 .time-card {
-    background: white;
-    border-radius: 12px;
-    padding: 10px 8px;
-    text-align: center;
-
-    /* Flexbox para centralizar */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    min-height: 75px;
-    height: 100%; /* Para cards de itens ficarem iguais na mesma linha */
-
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-
-    /* Borda Sólida Verde Escura nos Cards */
-    border: 1px solid #0B5C44;
+    background: white; border-radius: 12px; padding: 10px 8px; text-align: center;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    min-height: 75px; height: 100%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05); border: 1px solid #0B5C44;
 }
+.time-label { font-size: 0.8rem; color: #adb5bd; margin-bottom: 0; line-height: 1.2; }
+.item-text { font-weight: 600; color: #333; font-size: 0.85rem; line-height: 1.3; }
 
-.time-label {
-    font-size: 0.8rem;
-    color: #adb5bd; /* Label cinza claro */
-    margin-bottom: 0;
-    line-height: 1.2;
-}
-
-/* Texto dentro dos cards de itens */
-.item-text {
-    font-weight: 600;
-    color: #333;
-    font-size: 0.85rem;
-    line-height: 1.3;
-}
-
-/* Selects de Horário (Design Limpo sem Setas) */
+/* Selects sem seta */
 .time-select {
-    border: none;
-    background: transparent;
-    width: 100%;
-    font-weight: 600;
-    color: #000;
-    font-size: 1rem;
-
-    /* Remove setas nativas */
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-
-    text-align: center;
-    text-align-last: center; /* Garante centro no Chrome/Safari */
-
-    cursor: pointer;
-    padding: 0;
-    margin: 0;
+    border: none; background: transparent; width: 100%; font-weight: 600; color: #000; font-size: 1rem;
+    appearance: none; -webkit-appearance: none; -moz-appearance: none;
+    text-align: center; text-align-last: center; cursor: pointer; margin: 0; padding: 0;
 }
-.time-select:focus {
-    outline: none;
-}
+.time-select:focus { outline: none; }
 
-/* --- Radio Button Customizado (Lista de Itens) --- */
+/* Checkbox/Radio Customizado */
 .custom-radio {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    border: 1px solid #ccc;
-    background-color: #e0e0e0;
-    appearance: none;
-    cursor: pointer;
-    flex-shrink: 0;
-    margin-left: 10px;
+    width: 24px; height: 24px; border-radius: 50%; border: 1px solid #ccc;
+    background-color: #e0e0e0; appearance: none; cursor: pointer;
+    flex-shrink: 0; margin-left: 10px;
 }
-.custom-radio:checked {
+.custom-radio:checked { background-color: var(--primary-green); border-color: var(--primary-green); }
+
+
+/* ===========================================================
+   ESTILOS EXPECÍFICOS DA HOME
+   =========================================================== */
+
+.home-header {
+    background-color: var(--primary-green); padding: 20px 20px 50px 20px; flex-shrink: 0;
+}
+.profile-section { display: flex; justify-content: space-between; align-items: center; color: white; margin-top: 10px; }
+.profile-pic {
+    width: 50px; height: 50px; background-color: #e0e0e0; border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.5); display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; color: var(--primary-green); background: white; overflow: hidden;
+}
+.profile-pic img { width: 100%; height: 100%; object-fit: cover; }
+.home-body {
+    background-color: #f8f9fa; border-radius: 30px 30px 0 0; margin-top: -30px;
+    padding: 25px 20px 120px 20px; position: relative; z-index: 2; flex-grow: 1; overflow-y: auto;
+}
+.search-input-group {
+    background: white; border-radius: 25px; border: 1px solid #e0e0e0;
+    padding: 8px 15px; margin-bottom: 20px; display: flex; align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+}
+.search-input-group input { border: none; outline: none; width: 100%; color: #666; margin-left: 10px; font-size: 0.95rem; }
+.search-input-group i { color: #999; font-size: 1.1rem; }
+.location-card {
+    background: white; border-radius: 16px; padding: 15px; margin-bottom: 15px;
+    border: 1px solid #eee; box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+    display: flex; justify-content: space-between; align-items: center;
+    transition: transform 0.2s; cursor: pointer;
+}
+.location-card:hover { transform: translateY(-2px); border-color: var(--primary-green); }
+.location-icon { color: var(--primary-green); font-size: 1.5rem; margin-right: 15px; }
+.location-info h6 { margin: 0; font-weight: 600; color: #444; font-size: 0.95rem; }
+.location-info span { font-size: 0.75rem; color: #999; }
+.location-distance { color: var(--primary-green); font-weight: bold; font-size: 0.85rem; display: flex; align-items: center; gap: 5px; }
+.news-card {
+    background: white; border-radius: 16px; overflow: hidden; border: 1px solid #eee;
+    display: flex; margin-bottom: 25px; min-height: 130px; box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+}
+.news-image {
+    width: 40%; background-color: #222; color: white; padding: 15px;
+    display: flex; flex-direction: column; justify-content: center;
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1550009158-9ebf69173e03?auto=format&fit=crop&w=300&q=80');
+    background-size: cover;
+}
+.news-content { width: 60%; padding: 15px; display: flex; flex-direction: column; justify-content: space-between; }
+.btn-confira {
+    background-color: var(--primary-green); color: white; border: none;
+    border-radius: 6px; padding: 5px 20px; font-size: 0.8rem; font-weight: 600; align-self: flex-end;
+    transition: background 0.2s; cursor: pointer;
+}
+.btn-confira:hover { background-color: var(--primary-green-dark); }
+.suggestion-grid { display: flex; gap: 12px; justify-content: space-between; }
+.suggestion-btn {
+    background: white; border: 1px solid #eee; border-radius: 16px; flex: 1; height: 110px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.02); transition: all 0.2s; cursor: pointer;
+}
+.suggestion-btn:hover { transform: translateY(-3px); border-color: var(--primary-green); box-shadow: 0 8px 20px rgba(0,179,126,0.15); }
+.suggestion-icon-circle {
+    width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 8px;
+}
+.suggestion-icon { color: var(--primary-green); font-size: 1.8rem; }
+.suggestion-text { font-size: 0.75rem; color: var(--primary-green); font-weight: bold; line-height: 1.2; }
+
+/* --- MENU INFERIOR FLUTUANTE (CORREÇÃO FINAL) --- */
+/* Usamos a mesma lógica para Mobile e Desktop para garantir consistência */
+.bottom-nav-wrapper {
+    position: absolute;
+    bottom: 25px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    z-index: 100;
+    pointer-events: none;
+}
+
+.bottom-nav {
     background-color: var(--primary-green);
+    height: 65px;
+    width: 90%;
+    max-width: 350px;
+    border-radius: 35px;
+    display: flex;
+    justify-content: space-between; /* Distribui os itens igualmente */
+    align-items: center;
+    box-shadow: 0 10px 25px rgba(0, 179, 126, 0.4);
+    padding: 0 20px;
+    pointer-events: auto;
+    position: relative;
+}
+
+.nav-item {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1.5rem;
+    text-decoration: none;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+}
+.nav-item:hover, .nav-item.active { color: white; }
+
+/* MUDANÇA AQUI: Diminui o top para baixar o botão central */
+.nav-center {
+    position: relative;
+    top: 0px; /* Era -30px. Agora está mais baixo. */
+}
+
+.nav-center-circle {
+    width: 80px;
+    height: 80px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    border: 5px solid #f8f9fa; /* Borda que "corta" o fundo */
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+.nav-center-circle:hover { transform: scale(1.1); }
+
+.nav-center-icon {
+    color: var(--primary-green);
+    font-size: 1.6rem;
+}
+
+/* ===========================================================
+   ESTILOS DA TELA DE PERFIL
+   =========================================================== */
+
+.profile-header-nav {
+    display: flex; justify-content: space-between; align-items: center; color: white; margin-bottom: 10px;
+}
+
+.profile-avatar-container {
+    display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; margin-top: -10px;
+}
+
+.avatar-large {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: white; /* Fundo branco */
+    border: 3px solid var(--primary-green);
+    padding: 3px;
+    background-clip: content-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    /* Estilo do Ícone */
+    color: var(--primary-green);
+    font-size: 3rem; /* Ícone grande */
+    overflow: hidden;
+}
+
+.edit-icon {
+    position: absolute; bottom: 0; right: 0; background: white; border-radius: 50%;
+    width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); color: #666; font-size: 0.8rem;
+}
+
+.edit-text {
+    margin-top: 5px; font-size: 0.8rem; color: #999; text-decoration: underline; cursor: pointer;
+}
+
+.points-card {
+    background-color: #f1f1f1;
+    border-radius: 12px;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+
+    /* Adicionado para a transição suave */
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.points-card:hover {
+    background-color: white; /* Opcional: Fica branco no hover para destacar */
+    border-color: var(--primary-green); /* Borda Verde */
+    box-shadow: 0 4px 10px rgba(0,179,126,0.15); /* Sombra Verde Suave */
+    transform: translateY(-2px); /* Leve elevação */
+}
+.points-title { color: #666; font-size: 0.9rem; margin-bottom: 2px; }
+.points-value { color: var(--primary-green); font-weight: bold; font-size: 1.1rem; display: flex; align-items: center; gap: 5px; }
+
+.profile-menu-btn {
+    background-color: #f1f1f1; border: 1px solid transparent; /* Prepara borda */
+    border-radius: 12px; padding: 15px 20px; width: 100%;
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;
+    color: #333; font-weight: 500; text-decoration: none; transition: all 0.2s ease;
+}
+.profile-menu-btn:hover {
+    background-color: #fff; border-color: var(--primary-green);
+    color: var(--primary-green); box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    transform: translateY(-2px);
+}
+.menu-icon-left { margin-right: 10px; font-size: 1.1rem; width: 24px; text-align: center; }
+.menu-arrow { color: #999; }
+
+.location-card {
+    background: white; border-radius: 16px; padding: 15px; margin-bottom: 15px;
+    border: 1px solid #eee; box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+    display: flex; justify-content: space-between; align-items: center;
+    transition: transform 0.2s; cursor: pointer;
+}
+.location-card:hover { transform: translateY(-2px); border-color: var(--primary-green); }
+
+/* --- NOVO: Card do Mapa --- */
+.map-card {
+    background: white;
+    border-radius: 16px;
+
+    /* MUDANÇA: Padding para criar a borda branca */
+    padding: 8px;
+
+    border: 1px solid #eee;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+    margin-bottom: 15px;
+    height: 400px;
+    width: 100%;
+    position: relative;
+
+    /* Efeito de Hover para consistência */
+    transition: transform 0.2s, border-color 0.2s;
+    cursor: pointer;
+}
+
+.map-card:hover {
+    transform: translateY(-2px);
     border-color: var(--primary-green);
+}
+
+.map-card iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+
+    /* Arredondamento interno para casar com a borda */
+    border-radius: 10px;
 }

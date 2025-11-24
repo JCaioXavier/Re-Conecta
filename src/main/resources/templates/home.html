@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Home - Re.conecta</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Links de Estilo -->
+  <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}" />
+  <link rel="stylesheet" th:href="@{/webjars/bootstrap-icons/1.11.3/font/bootstrap-icons.css}" />
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+
+<!-- Container Principal -->
+<div class="container-fluid d-flex justify-content-center p-0">
+  <div class="home-container position-relative">
+
+    <!-- 1. Header Verde -->
+    <div class="home-header">
+      <!-- Status Bar (Só aparece no mobile via CSS) -->
+      <div class="d-flex justify-content-between text-white small opacity-75 mb-3 status-bar-fake">
+      </div>
+
+      <!-- Perfil -->
+      <div class="profile-section">
+        <div class="d-flex align-items-center gap-3">
+          <!-- Avatar -->
+          <div class="profile-pic">
+            <i class="bi bi-person-fill"></i>
+          </div>
+          <div style="line-height: 1.2;">
+            <div class="small opacity-75">Bom Dia,</div>
+            <div class="fw-bold fs-5">Ryan Austin</div>
+          </div>
+        </div>
+        <i class="bi bi-bell fs-4 cursor-pointer"></i>
+      </div>
+    </div>
+
+    <!-- 2. Corpo Branco (Conteúdo) -->
+    <div class="home-body">
+
+      <!-- Wrapper para o Grid Desktop (IMPORTANTE para o layout 16:9) -->
+      <div class="desktop-content-wrapper">
+
+        <!-- COLUNA 1 (Busca e Locais) -->
+        <div class="left-column">
+          <!-- Barra de Busca -->
+          <div class="search-input-group">
+            <i class="bi bi-search me-2"></i>
+            <input type="text" placeholder="Para onde?" />
+          </div>
+
+          <!-- Card Local 1 -->
+          <div class="location-card">
+            <div class="d-flex align-items-center">
+              <div class="location-icon-box"><i class="bi bi-building location-icon"></i></div>
+              <div class="location-info">
+                <h6>GreenPoint Descarte</h6>
+                <span>Rua Cincinato Pinto, n. 298</span>
+              </div>
+            </div>
+            <div class="location-distance"><i class="bi bi-car-front-fill"></i> 7m</div>
+          </div>
+
+          <!-- Card Local 2 -->
+          <div class="location-card">
+            <div class="d-flex align-items-center">
+              <div class="location-icon-box"><i class="bi bi-building location-icon"></i></div>
+              <div class="location-info">
+                <h6>EcoTech Maceió</h6>
+                <span>Rua do Sol, n. 215</span>
+              </div>
+            </div>
+            <div class="location-distance"><i class="bi bi-car-front-fill"></i> 9m</div>
+          </div>
+          <!-- MAPA DO GOOGLE MAPS -->
+          <div class="map-card">
+            <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3933.387220387933!2d-35.73533922415743!3d-9.648138990439807!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x701457a43a45e05%3A0x40c3e09777e06c28!2sMacei%C3%B3%2C%20AL!5e0!3m2!1spt-BR!2sbr!4v1700000000000!5m2!1spt-BR!2sbr"
+                    allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+          </div>
+
+        </div>
+
+        <!-- COLUNA 2 (Novidades e Sugestões) -->
+        <div class="right-column">
+          <!-- Novidades -->
+          <h6 class="fw-bold text-success mt-4 mt-lg-0 mb-3">Novidades da Semana</h6>
+          <div class="news-card">
+            <div class="news-image">
+              <small class="fw-bold text-danger bg-white text-danger px-1 rounded" style="width: fit-content;">Baixo Índice:</small>
+              <span class="small mt-1" style="font-size: 0.75rem; line-height: 1.2;">O Brasil recicla apenas cerca de 3% a 4% do lixo eletrônico...</span>
+            </div>
+            <div class="news-content">
+              <p class="text-muted small mb-2" style="font-size: 0.75rem; line-height: 1.3;">
+                A maior parte do lixo eletrônico ainda acaba em lixões comuns...
+              </p>
+              <button class="btn-confira">Confira</button>
+            </div>
+          </div>
+
+          <!-- Notícia 2 (Nova) -->
+          <div class="news-card">
+            <div class="news-image" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=300&q=80');">
+              <small class="fw-bold text-warning bg-white text-warning px-1 rounded" style="width: fit-content;">Novo Ponto:</small>
+              <span class="small mt-1" style="font-size: 0.75rem; line-height: 1.2;">Inaugurado novo centro de coleta no centro da cidade...</span>
+            </div>
+            <div class="news-content">
+              <p class="text-muted small mb-2" style="font-size: 0.75rem; line-height: 1.3;">
+                Agora ficou mais fácil descartar suas pilhas e baterias perto de você...
+              </p>
+              <button class="btn-confira">Confira</button>
+            </div>
+          </div>
+
+          <!-- Notícia 3 (Nova) -->
+          <div class="news-card">
+            <div class="news-image" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=300&q=80');">
+              <small class="fw-bold text-success bg-white text-success px-1 rounded" style="width: fit-content;">Dica:</small>
+              <span class="small mt-1" style="font-size: 0.75rem; line-height: 1.2;">Saiba como separar corretamente seus cabos antigos...</span>
+            </div>
+            <div class="news-content">
+              <p class="text-muted small mb-2" style="font-size: 0.75rem; line-height: 1.3;">
+                Misturar cabos com lixo orgânico pode ser perigoso. Veja o guia completo...
+              </p>
+              <button class="btn-confira">Confira</button>
+            </div>
+          </div>
+
+          <!-- Sugestões -->
+          <h6 class="fw-bold text-success mb-3">Sugestões</h6>
+          <div class="suggestion-grid">
+            <!-- Botão 1 -->
+            <div class="suggestion-btn">
+              <div class="suggestion-icon-circle"><i class="bi bi-geo-alt-fill suggestion-icon"></i></div>
+              <span class="suggestion-text">Solicitar<br>Coleta</span>
+            </div>
+            <!-- Botão 2 -->
+            <div class="suggestion-btn">
+              <div class="suggestion-icon-circle"><i class="bi bi-bug-fill suggestion-icon"></i></div>
+              <span class="suggestion-text">Reportar<br>bug</span>
+            </div>
+            <!-- Botão 3 -->
+            <div class="suggestion-btn">
+              <div class="suggestion-icon-circle"><i class="bi bi-gift-fill suggestion-icon"></i></div>
+              <span class="suggestion-text">Resgatar<br>Recompensa</span>
+            </div>
+          </div>
+        </div>
+
+      </div> <!-- Fim do Wrapper Desktop -->
+
+      <!-- Espaço extra no final para o conteúdo não ficar escondido atrás do menu -->
+      <div style="height: 100px;"></div>
+    </div>
+
+    <!-- 3. Menu Inferior Flutuante -->
+    <div class="bottom-nav-wrapper">
+      <div class="bottom-nav">
+        <a href="/home" class="nav-item"><i class="bi bi-house-door-fill"></i></a>
+        <a href="/perfil" class="nav-item active"><i class="bi bi-person-fill"></i></a>
+
+        <!-- Botão Central (Pino) -->
+        <div class="nav-center">
+          <svg width="51" height="62" viewBox="0 0 51 62" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path opacity="0.5" d="M20.6827 22.6825C20.775 22.5937 20.9373 22.4809 21.4532 22.4109C22.005 22.3374 22.7532 22.3357 23.9115 22.3357H27.089C28.2472 22.3357 28.9955 22.3374 29.5456 22.4109C30.0632 22.4809 30.2255 22.5937 30.3143 22.6842C30.4066 22.7747 30.5193 22.937 30.5876 23.4529C30.6628 24.0047 30.6645 24.753 30.6645 25.9112V29.0887C30.6645 30.247 30.6628 30.9952 30.5876 31.5453C30.5193 32.0629 30.4066 32.2252 30.3143 32.3141C30.2255 32.4063 30.0632 32.5191 29.5456 32.5874C28.9955 32.6626 28.2472 32.6643 27.089 32.6643H23.9115C22.7532 32.6643 22.005 32.6626 21.4532 32.5874C20.9373 32.5191 20.775 32.4063 20.6844 32.3141C20.5939 32.2252 20.4811 32.0629 20.4111 31.5453C20.3376 30.9952 20.3359 30.247 20.3359 29.0887V25.9112C20.3359 24.753 20.3376 24.0047 20.4111 23.4529C20.4811 22.937 20.5939 22.7747 20.6844 22.6842" fill="white"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M26.6923 11.6091C26.6923 11.2929 26.5666 10.9896 26.343 10.7659C26.1194 10.5423 25.8161 10.4167 25.4998 10.4167C25.1836 10.4167 24.8803 10.5423 24.6567 10.7659C24.4331 10.9896 24.3074 11.2929 24.3074 11.6091V16.3754C23.4373 16.3754 22.6429 16.385 21.9243 16.4044V11.6091C21.9126 11.3009 21.782 11.0092 21.5598 10.7953C21.3376 10.5813 21.0412 10.4618 20.7327 10.4618C20.4243 10.4618 20.1279 10.5813 19.9057 10.7953C19.6835 11.0092 19.5528 11.3009 19.5412 11.6091V16.3754C19.5412 16.4391 19.5457 16.5006 19.5548 16.5599C17.9558 16.7563 16.8471 17.1629 16.0049 18.0051C15.1627 18.8473 14.7561 19.956 14.5597 21.555C14.4985 21.5471 14.4369 21.5426 14.3752 21.5414H9.60892C9.30071 21.553 9.009 21.6837 8.79507 21.9059C8.58114 22.128 8.46163 22.4245 8.46163 22.7329C8.46163 23.0414 8.58114 23.3378 8.79507 23.56C9.009 23.7822 9.30071 23.9128 9.60892 23.9245H14.4042C14.386 24.642 14.3769 25.4364 14.3769 26.3076H9.60892C9.29267 26.3076 8.98938 26.4332 8.76575 26.6569C8.54213 26.8805 8.4165 27.1838 8.4165 27.5C8.4165 27.8163 8.54213 28.1196 8.76575 28.3432C8.98938 28.5668 9.29267 28.6924 9.60892 28.6924H14.3752C14.3752 29.5625 14.3849 30.3569 14.4042 31.0756H9.60892C9.30071 31.0872 9.009 31.2179 8.79507 31.4401C8.58114 31.6623 8.46163 31.9587 8.46163 32.2671C8.46163 32.5756 8.58114 32.872 8.79507 33.0942C9.009 33.3164 9.30071 33.447 9.60892 33.4587H14.3752C14.4369 33.4575 14.4985 33.4529 14.5597 33.445C14.7561 35.044 15.1627 36.1527 16.0049 36.9949C16.8471 37.8371 17.9558 38.2437 19.5548 38.4402C19.547 38.5014 19.5424 38.563 19.5412 38.6247V43.3909C19.5528 43.6992 19.6835 43.9909 19.9057 44.2048C20.1279 44.4187 20.4243 44.5382 20.7327 44.5382C21.0412 44.5382 21.3376 44.4187 21.5598 44.2048C21.782 43.9909 21.9126 43.6992 21.9243 43.3909V38.5956C22.6418 38.6139 23.4362 38.623 24.3074 38.623V43.3909C24.3074 43.7072 24.4331 44.0105 24.6567 44.2341C24.8803 44.4577 25.1836 44.5834 25.4998 44.5834C25.8161 44.5834 26.1194 44.4577 26.343 44.2341C26.5666 44.0105 26.6923 43.7072 26.6923 43.3909V38.6247C27.5624 38.6247 28.3567 38.615 29.0754 38.5956V43.3909C29.0871 43.6992 29.2177 43.9909 29.4399 44.2048C29.6621 44.4187 29.9585 44.5382 30.2669 44.5382C30.5754 44.5382 30.8718 44.4187 31.094 44.2048C31.3162 43.9909 31.4468 43.6992 31.4585 43.3909V38.6247C31.4573 38.563 31.4527 38.5014 31.4448 38.4402C33.0438 38.2437 34.1525 37.8371 34.9948 36.9949C35.837 36.1527 36.2435 35.044 36.44 33.445C36.5004 33.4553 36.5619 33.4598 36.6245 33.4587H41.3908C41.699 33.447 41.9907 33.3164 42.2046 33.0942C42.4185 32.872 42.538 32.5756 42.538 32.2671C42.538 31.9587 42.4185 31.6623 42.2046 31.4401C41.9907 31.2179 41.699 31.0872 41.3908 31.0756H36.5955C36.6137 30.3581 36.6228 29.5637 36.6228 28.6924H41.3908C41.707 28.6924 42.0103 28.5668 42.2339 28.3432C42.4575 28.1196 42.5832 27.8163 42.5832 27.5C42.5832 27.1838 42.4575 26.8805 42.2339 26.6569C42.0103 26.4332 41.707 26.3076 41.3908 26.3076H36.6245C36.6245 25.4375 36.6148 24.6431 36.5955 23.9245H41.3908C41.699 23.9128 41.9907 23.7822 42.2046 23.56C42.4185 23.3378 42.538 23.0414 42.538 22.7329C42.538 22.4245 42.4185 22.128 42.2046 21.9059C41.9907 21.6837 41.699 21.553 41.3908 21.5414H36.6245C36.5628 21.5426 36.5012 21.5471 36.44 21.555C36.2435 19.956 35.837 18.8473 34.9948 18.0051C34.1525 17.1629 33.0438 16.7563 31.4448 16.5599C31.4527 16.4986 31.4573 16.4371 31.4585 16.3754V11.6091C31.4468 11.3009 31.3162 11.0092 31.094 10.7953C30.8718 10.5813 30.5754 10.4618 30.2669 10.4618C29.9585 10.4618 29.6621 10.5813 29.4399 10.7953C29.2177 11.0092 29.0871 11.3009 29.0754 11.6091V16.4044C28.2811 16.3854 27.4867 16.3763 26.6923 16.3771V11.6091ZM21.1368 20.0483C21.8645 19.9509 22.7768 19.9509 23.8325 19.9509H27.1672C28.2246 19.9509 29.1335 19.9509 29.8629 20.05C30.6453 20.1542 31.3936 20.3916 32.0018 20.9981C32.6082 21.6063 32.8457 22.3545 32.9499 23.1369C33.049 23.8647 33.049 24.7769 33.049 25.8327V29.1674C33.049 30.2248 33.049 31.1336 32.9499 31.8631C32.8457 32.6455 32.6082 33.3938 32.0018 34.0019C31.3936 34.6084 30.6453 34.8459 29.8629 34.9501C29.1335 35.0491 28.2229 35.0491 27.1672 35.0491H23.8325C22.775 35.0491 21.8645 35.0491 21.1368 34.9501C20.3543 34.8459 19.6061 34.6084 18.9979 34.0019C18.3915 33.3938 18.154 32.6455 18.0498 31.8631C17.9507 31.1336 17.9507 30.2231 17.9507 29.1674V25.8327C17.9507 24.7752 17.9507 23.8647 18.0498 23.1369C18.154 22.3545 18.3915 21.6063 18.9979 20.9981C19.6061 20.3916 20.3543 20.1525 21.1368 20.0483Z" fill="white"/>
+            <path d="M27.1503 25.0144C27.3198 24.7568 27.3829 24.4436 27.3265 24.1405C27.27 23.8374 27.0983 23.5679 26.8475 23.3887C26.5966 23.2094 26.2861 23.1343 25.981 23.1791C25.6759 23.2239 25.4001 23.3851 25.2114 23.6289L22.941 26.8064C22.814 26.9847 22.7385 27.1945 22.7228 27.4128C22.7071 27.6311 22.7518 27.8496 22.852 28.0442C22.9522 28.2388 23.1041 28.4021 23.2909 28.5161C23.4778 28.6301 23.6924 28.6905 23.9113 28.6907H24.774L23.8498 29.9856C23.7498 30.1123 23.6767 30.258 23.6347 30.4139C23.5927 30.5698 23.5828 30.7325 23.6055 30.8923C23.6283 31.0521 23.6833 31.2056 23.7671 31.3435C23.851 31.4815 23.962 31.6009 24.0934 31.6947C24.2247 31.7884 24.3738 31.8546 24.5315 31.889C24.6892 31.9235 24.8522 31.9255 25.0107 31.8951C25.1693 31.8647 25.32 31.8024 25.4537 31.7121C25.5874 31.6217 25.7014 31.5051 25.7888 31.3694L28.0591 28.1919C28.1862 28.0136 28.2616 27.8038 28.2773 27.5854C28.293 27.3671 28.2483 27.1487 28.1481 26.9541C28.0479 26.7595 27.896 26.5962 27.7092 26.4822C27.5223 26.3681 27.3077 26.3077 27.0888 26.3076H26.2261L27.1503 25.0144Z" fill="white"/>
+            <path d="M25.5 0.5C39.297 0.5 50.5 11.4154 50.5 24.8008V24.8027C50.5454 34.6002 44.9729 43.4725 39.1973 50.0186C33.4318 56.553 27.5327 60.6922 27.0654 61.0137L27.0645 61.0146C26.6091 61.33 26.062 61.5 25.5 61.5C24.938 61.5 24.3909 61.33 23.9355 61.0146L23.9346 61.0137L23.5156 60.7168C21.9947 59.6201 16.8475 55.7368 11.8027 50.0176C6.02713 43.4697 0.454636 34.5925 0.5 24.7871V24.7852C0.50006 11.4155 11.7029 0.5 25.5 0.5ZM25.5 5.7002C14.6907 5.7002 5.87662 14.2518 5.875 24.7979C5.84073 31.8466 9.41772 38.4877 13.5928 43.8398C17.7749 49.2011 22.6072 53.3332 25.1904 55.373L25.5 55.6172L25.8096 55.373C28.3945 53.3346 33.2265 49.2046 37.4082 43.8457C41.4525 38.6629 44.9348 32.2715 45.1172 25.4727L45.125 24.8135C45.1234 14.2522 36.3096 5.7002 25.5 5.7002Z" fill="white" stroke="#00B37E"/>
+          </svg>
+        </div>
+
+        <a href="#" class="nav-item"><i class="bi bi-chat-left-text-fill"></i></a>
+        <a href="#" class="nav-item"><i class="bi bi-shop"></i></a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

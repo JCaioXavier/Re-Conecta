@@ -1,95 +1,99 @@
 package br.com.reconecta.app.controller;
 
 import br.com.reconecta.app.dto.CadastroPfDTO;
+import br.com.reconecta.app.dto.CadastroPjDTO;
 import br.com.reconecta.app.service.CadastroService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 @Controller
+@SessionAttributes("cadastroPjDTO") // MANTÉM OS DADOS VIVOS ENTRE AS TELAS
 public class CadastroController {
 
     @Autowired
     private CadastroService cadastroService;
 
-    // Tela de decisão (Escolher entre PF e PJ)
+    // Inicializa o DTO (o "carrinho de compras" dos dados) quando o usuário entra no fluxo
+    @ModelAttribute("cadastroPjDTO")
+    public CadastroPjDTO cadastroPjDTO() {
+        return new CadastroPjDTO();
+    }
+
+    // --- TELA DE ESCOLHA ---
     @GetMapping("/tipo-cadastro")
     public String tipoCadastro() {
         return "tipo-cadastro";
     }
 
-    // ==========================================
-    //           FLUXO PESSOA FÍSICA
-    // ==========================================
-
-    // 1. Exibe o formulário de cadastro PF
+    // --- FLUXO PESSOA FÍSICA (PF) ---
     @GetMapping("/cadastro-pf")
     public String cadastroPf() {
         return "cadastro-pf";
     }
 
-    // 2. Processa os dados do formulário PF (Salva no Banco)
     @PostMapping("/cadastro-pf")
     public String salvarPf(@ModelAttribute CadastroPfDTO dto) {
-        // Validação básica de senha
-        if (dto.getSenha() != null && dto.getConfirmarSenha() != null) {
-            if (!dto.getSenha().equals(dto.getConfirmarSenha())) {
-                return "redirect:/cadastro-pf?erroSenha=true";
-            }
-        }
-
         try {
             cadastroService.salvarPessoaFisica(dto);
             return "redirect:/login?cadastrado=true";
-
-        } catch (DataIntegrityViolationException e) {
-            // Captura erro de duplicidade (CPF ou Email já existem)
-            // O ideal seria verificar a mensagem da exceção para saber qual campo duplicou
-            // mas para simplificar, vamos assumir erro de CPF/Email
-            return "redirect:/cadastro-pf?erroCpfExistente=true";
-
         } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/cadastro-pf?erro=true";
         }
     }
 
-    // ==========================================
-    //           FLUXO PESSOA JURÍDICA
-    // ==========================================
+    // --- FLUXO PESSOA JURÍDICA (PJ) ---
 
-    // Passo 1: Exibe formulário de dados da Empresa
+    // PASSO 1: Exibe formulário da Empresa
     @GetMapping("/cadastro-pj-empresa")
-    public String cadastroPjEmpresa() {
+    public String cadastroPjEmpresa(@ModelAttribute("cadastroPjDTO") CadastroPjDTO dto) {
         return "cadastro-pj-empresa";
     }
 
-    // Processa Passo 1 -> Redireciona para Passo 2
+    // PASSO 1 (POST): Recebe dados da empresa -> Guarda na Sessão -> Vai para Representante
     @PostMapping("/cadastro-pj-empresa")
-    public String processarCadastroPj() {
-        System.out.println("--- Dados da empresa recebidos. Indo para representante... ---");
-        // (Aqui você poderia salvar os dados da empresa na sessão se fosse um fluxo real complexo)
+    public String processarCadastroPj(@ModelAttribute("cadastroPjDTO") CadastroPjDTO dto) {
+        // O Spring já atualizou o objeto 'dto' da sessão com os dados do formulário automaticamente.
+        System.out.println("--- Passo 1 Concluído ---");
+        System.out.println("Empresa: " + dto.getRazaoSocial());
+        System.out.println("CNPJ: " + dto.getCnpj());
+
+        // Redireciona para a próxima etapa
         return "redirect:/cadastro-pj-representante";
     }
 
-    // Passo 2: Exibe formulário do Representante
+    // PASSO 2: Exibe formulário do Representante
     @GetMapping("/cadastro-pj-representante")
-    public String cadastroPjRepresentante() {
+    public String cadastroPjRepresentante(@ModelAttribute("cadastroPjDTO") CadastroPjDTO dto) {
         return "cadastro-pj-representante";
     }
 
-    // Passo Final: Recebe dados do representante e finaliza
+    // PASSO FINAL: Recebe dados do representante -> Salva TUDO no Banco -> Finaliza
+
     @PostMapping("/finalizar-cadastro")
-    public String finalizarCadastro() {
-        System.out.println("--- Cadastro PJ finalizado com sucesso! ---");
-        // (Aqui você chamaria o service para salvar Empresa + Representante)
-        return "redirect:/login?cadastrado=true";
+    public String finalizarCadastro(@ModelAttribute("cadastroPjDTO") CadastroPjDTO dto, SessionStatus status) {
+        System.out.println(">>> PASSO 2 RECEBIDO - INICIANDO GRAVAÇÃO NO BANCO <<<");
+        System.out.println("Representante: " + dto.getNomeCompleto());
+        System.out.println("Empresa (Vinda da Sessão): " + dto.getRazaoSocial());
+
+        try {
+            cadastroService.salvarPessoaJuridica(dto);
+            status.setComplete(); // Limpa a memória
+            System.out.println(">>> SUCESSO TOTAL! DADOS GRAVADOS <<<");
+            return "redirect:/login?cadastrado=true";
+        } catch (Exception e) {
+            System.err.println("ERRO AO SALVAR NO BANCO:");
+            e.printStackTrace();
+            return "redirect:/cadastro-pj-empresa?erro=true";
+        }
     }
 
-    // Rota de legado para compatibilidade (caso algum link antigo ainda aponte para cá)
+    // Rota de legado
     @GetMapping("/cadastro-pj")
     public String cadastroPjAntigo() {
         return "redirect:/cadastro-pj-empresa";

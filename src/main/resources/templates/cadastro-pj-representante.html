@@ -16,26 +16,24 @@
 
         <!-- Cabeçalho Verde -->
         <div class="header-green d-flex align-items-center justify-content-center position-relative pt-4 pb-5">
-            <!-- Botão Voltar (Volta para a etapa anterior de dados da empresa) -->
+            <!-- Botão Voltar -->
             <a href="/cadastro-pj-empresa" class="text-white position-absolute start-0 ms-3 text-decoration-none" style="top: 20px; font-size: 1.5rem;">
                 <i class="bi bi-arrow-left"></i>
             </a>
-
-            <!-- Título Centralizado -->
             <h4 class="fw-bold m-0 text-white">Cadastro Re.conecta</h4>
         </div>
 
         <!-- Card Branco -->
         <div class="p-4 form-card">
 
-            <form th:action="@{/login}" method="post">
+            <!-- CORREÇÃO: Action aponta para /finalizar-cadastro -->
+            <form th:action="@{/finalizar-cadastro}" method="post">
 
                 <!-- 1. Nome Completo -->
                 <div class="mb-3">
                     <div class="input-group">
                         <span class="input-group-text border-end-0"><i class="bi bi-person"></i></span>
                         <input type="text" name="nomeCompleto" class="form-control border-start-0 border-end-0 ps-0" placeholder="Nome completo" required="required" />
-                        <!-- Asterisco Verde Suave -->
                         <span class="input-group-text border-start-0 ps-0 bg-transparent"><i class="bi bi-asterisk" style="font-size: 0.5rem; color: var(--primary-black); opacity: 0.5;"></i></span>
                     </div>
                 </div>
@@ -44,7 +42,7 @@
                 <div class="mb-3">
                     <div class="input-group">
                         <span class="input-group-text border-end-0"><i class="bi bi-file-earmark-text"></i></span>
-                        <input type="text" name="cpf" class="form-control border-start-0 border-end-0 ps-0" placeholder="CPF" required="required" />
+                        <input type="text" name="cpf" id="cpf" class="form-control border-start-0 border-end-0 ps-0" placeholder="CPF" required="required" oninput="mascaraCPF(this)" maxlength="14" />
                         <span class="input-group-text border-start-0 ps-0 bg-transparent"><i class="bi bi-asterisk" style="font-size: 0.5rem; color: var(--primary-black); opacity: 0.5;"></i></span>
                     </div>
                 </div>
@@ -71,7 +69,7 @@
                 <div class="mb-5">
                     <div class="input-group">
                         <span class="input-group-text border-end-0"><i class="bi bi-telephone"></i></span>
-                        <input type="tel" name="telefone" class="form-control border-start-0 border-end-0 ps-0" placeholder="Telefone (Interno)" required="required" />
+                        <input type="tel" name="telefone" class="form-control border-start-0 border-end-0 ps-0" placeholder="Telefone (Interno)" required="required" oninput="mascaraTelefone(this)" maxlength="15" />
                         <span class="input-group-text border-start-0 ps-0 bg-transparent"><i class="bi bi-asterisk" style="font-size: 0.5rem; color: var(--primary-black); opacity: 0.5;"></i></span>
                     </div>
                 </div>
@@ -80,9 +78,34 @@
                 <button type="submit" class="btn btn-reconecta w-100 mb-3 shadow-sm mt-auto">Cadastrar</button>
 
             </form>
+            <div th:if="${param.erroDuplicidade}" class="alert alert-warning py-2 small mb-3">
+                <i class="bi bi-exclamation-triangle-fill"></i> CPF ou E-mail já cadastrado no sistema.
+            </div>
         </div>
     </div>
 </div>
+
+<!-- Scripts -->
+<script>
+    function mascaraCPF(i) {
+        var v = i.value;
+        if(isNaN(v[v.length-1])){ i.value = v.substring(0, v.length-1); return; }
+        i.setAttribute("maxlength", "14");
+        v = v.replace(/\D/g, "")
+        v = v.replace(/(\d{3})(\d)/, "$1.$2")
+        v = v.replace(/(\d{3})(\d)/, "$1.$2")
+        v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2")
+        i.value = v;
+    }
+
+    function mascaraTelefone(i) {
+        var v = i.value;
+        v = v.replace(/\D/g, "");
+        v = v.replace(/^(\d{2})(\d)/g, "($1) $2");
+        v = v.replace(/(\d)(\d{4})$/, "$1-$2");
+        i.value = v;
+    }
+</script>
 
 </body>
 </html>
