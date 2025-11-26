@@ -42,7 +42,6 @@ public class CadastroController {
             cadastroService.salvarPessoaFisica(dto);
             return "redirect:/login?cadastrado=true";
         } catch (Exception e) {
-            e.printStackTrace();
             return "redirect:/cadastro-pf?erro=true";
         }
     }
@@ -58,11 +57,6 @@ public class CadastroController {
     // PASSO 1 (POST): Recebe dados da empresa -> Guarda na Sessão -> Vai para Representante
     @PostMapping("/cadastro-pj-empresa")
     public String processarCadastroPj(@ModelAttribute("cadastroPjDTO") CadastroPjDTO dto) {
-        // O Spring já atualizou o objeto 'dto' da sessão com os dados do formulário automaticamente.
-        System.out.println("--- Passo 1 Concluído ---");
-        System.out.println("Empresa: " + dto.getRazaoSocial());
-        System.out.println("CNPJ: " + dto.getCnpj());
-
         // Redireciona para a próxima etapa
         return "redirect:/cadastro-pj-representante";
     }
@@ -74,28 +68,14 @@ public class CadastroController {
     }
 
     // PASSO FINAL: Recebe dados do representante -> Salva TUDO no Banco -> Finaliza
-
     @PostMapping("/finalizar-cadastro")
     public String finalizarCadastro(@ModelAttribute("cadastroPjDTO") CadastroPjDTO dto, SessionStatus status) {
-        System.out.println(">>> PASSO 2 RECEBIDO - INICIANDO GRAVAÇÃO NO BANCO <<<");
-        System.out.println("Representante: " + dto.getNomeCompleto());
-        System.out.println("Empresa (Vinda da Sessão): " + dto.getRazaoSocial());
-
         try {
             cadastroService.salvarPessoaJuridica(dto);
             status.setComplete(); // Limpa a memória
-            System.out.println(">>> SUCESSO TOTAL! DADOS GRAVADOS <<<");
             return "redirect:/login?cadastrado=true";
         } catch (Exception e) {
-            System.err.println("ERRO AO SALVAR NO BANCO:");
-            e.printStackTrace();
             return "redirect:/cadastro-pj-empresa?erro=true";
         }
-    }
-
-    // Rota de legado
-    @GetMapping("/cadastro-pj")
-    public String cadastroPjAntigo() {
-        return "redirect:/cadastro-pj-empresa";
     }
 }

@@ -1,7 +1,9 @@
 package br.com.reconecta.app.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "contatos_parceiro")
 public class ContatosParceiro {
@@ -32,11 +34,17 @@ public class ContatosParceiro {
     @Column(length = 50)
     private String status = "Ativo";
 
-    // Getters e Setters
+    // --- Getters e Setters ---
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
     public void setPontoColeta(CadastroPontoColeta pontoColeta) { this.pontoColeta = pontoColeta; }
     public void setNome(String nome) { this.nome = nome; }
+
     public void setCpf(String cpf) { this.cpf = cpf; }
     public void setCargo(String cargo) { this.cargo = cargo; }
+
     public void setEmailInterno(String emailInterno) { this.emailInterno = emailInterno; }
     public void setTelefoneInterno(String telefoneInterno) { this.telefoneInterno = telefoneInterno; }
 }

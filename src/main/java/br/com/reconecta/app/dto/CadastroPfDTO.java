@@ -28,7 +28,6 @@ public class CadastroPfDTO {
 
     private String confirmarSenha;
 
-    // Endereço (Opcional)
     private String cep;
     private String logradouro;
     private String numero;
@@ -37,7 +36,7 @@ public class CadastroPfDTO {
     private String estado;
     private String complemento;
 
-    // --- GETTERS E SETTERS MANUAIS ---
+    // --- GETTERS E SETTERS ---
 
     public String getNomeCompleto() { return nomeCompleto; }
     public void setNomeCompleto(String nomeCompleto) { this.nomeCompleto = nomeCompleto; }

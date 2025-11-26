@@ -8,11 +8,11 @@ public class HomeController {
 
     @GetMapping("/home")
     public String home() {
-        return "home"; // Retorna o arquivo home.html
+        return "home";
     }
 
     @GetMapping("/perfil")
     public String perfil() {
-        return "perfil"; // Retorna templates/perfil.html
+        return "perfil";
     }
 }

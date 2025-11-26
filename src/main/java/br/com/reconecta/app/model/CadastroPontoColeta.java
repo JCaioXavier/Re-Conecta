@@ -1,8 +1,11 @@
 package br.com.reconecta.app.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
+
 import java.time.LocalTime;
 
+@Data
 @Entity
 @Table(name = "cadastro_ponto_coleta")
 public class CadastroPontoColeta {
@@ -56,37 +59,48 @@ public class CadastroPontoColeta {
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    // ... (Getters e Setters antigos) ...
     public String getCnpj() { return cnpj; }
     public void setCnpj(String cnpj) { this.cnpj = cnpj; }
+
     public String getRazaoSocial() { return razaoSocial; }
     public void setRazaoSocial(String razaoSocial) { this.razaoSocial = razaoSocial; }
+
     public String getNomeFantasia() { return nomeFantasia; }
     public void setNomeFantasia(String nomeFantasia) { this.nomeFantasia = nomeFantasia; }
+
     public String getCep() { return cep; }
     public void setCep(String cep) { this.cep = cep; }
+
     public String getLogradouro() { return logradouro; }
     public void setLogradouro(String logradouro) { this.logradouro = logradouro; }
+
     public String getNumero() { return numero; }
     public void setNumero(String numero) { this.numero = numero; }
+
     public String getBairro() { return bairro; }
     public void setBairro(String bairro) { this.bairro = bairro; }
+
     public String getMunicipio() { return municipio; }
     public void setMunicipio(String municipio) { this.municipio = municipio; }
+
     public String getEstado() { return estado; }
     public void setEstado(String estado) { this.estado = estado; }
+
     public LocalTime getHorarioAbertura() { return horarioAbertura; }
     public void setHorarioAbertura(LocalTime horarioAbertura) { this.horarioAbertura = horarioAbertura; }
+
     public LocalTime getHorarioFechamento() { return horarioFechamento; }
     public void setHorarioFechamento(LocalTime horarioFechamento) { this.horarioFechamento = horarioFechamento; }
+
     public String getEmailPublico() { return emailPublico; }
     public void setEmailPublico(String emailPublico) { this.emailPublico = emailPublico; }
+
     public String getTelefonePublico() { return telefonePublico; }
     public void setTelefonePublico(String telefonePublico) { this.telefonePublico = telefonePublico; }
+
     public String getStatusPonto() { return statusPonto; }
     public void setStatusPonto(String statusPonto) { this.statusPonto = statusPonto; }
 
-    // Novos Getters/Setters
     public String getDiasFuncionamento() { return diasFuncionamento; }
     public void setDiasFuncionamento(String diasFuncionamento) { this.diasFuncionamento = diasFuncionamento; }
 

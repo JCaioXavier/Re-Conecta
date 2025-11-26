@@ -7,7 +7,6 @@ import jakarta.validation.constraints.Size;
 import java.time.LocalTime;
 import java.util.List;
 
-// Se não tiver Lombok, crie os Getters e Setters manualmente
 public class CadastroPjDTO {
 
     // --- DADOS EMPRESA (Tela 1) ---
@@ -19,8 +18,8 @@ public class CadastroPjDTO {
 
     // Endereço
     private String cep;
-    private String endereco; // Logradouro
-    private String logradouro; // Redundante, mas ajustável
+    private String endereco;
+    private String logradouro;
     private String numero;
     private String bairro;
     private String municipio;
@@ -44,7 +43,6 @@ public class CadastroPjDTO {
     private String telefone;     // Telefone interno
 
     // --- GETTERS E SETTERS ---
-    // (Gere todos eles aqui, clique com botão direito > Generate > Getter and Setter)
 
     public String getCnpj() { return cnpj; }
     public void setCnpj(String cnpj) { this.cnpj = cnpj; }

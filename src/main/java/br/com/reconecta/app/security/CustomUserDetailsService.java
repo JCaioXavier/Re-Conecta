@@ -17,12 +17,10 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private UsuarioPessoaFisicaRepository usuarioRepository;
 
-    // O Spring chama esse método automaticamente quando alguém tenta logar
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         // 1. Busca o usuário no banco pelo email (que é o username da tela de login)
-        // Como o repositório retorna null ou lança erro se não achar, vamos tratar:
         UsuarioPessoaFisica usuario = usuarioRepository.findAll().stream()
                 .filter(u -> u.getEmail().equals(email))
                 .findFirst()
@@ -31,8 +29,8 @@ public class CustomUserDetailsService implements UserDetailsService {
         // 2. Retorna um objeto User do Spring com os dados do nosso banco
         return new User(
                 usuario.getEmail(),
-                usuario.getSenha(), // A senha criptografada que está no banco
-                Collections.emptyList() // Permissões (Roles) - deixamos vazio por enquanto
+                usuario.getSenha(),
+                Collections.emptyList()
         );
     }
 }

@@ -81,17 +81,13 @@ body {
 
     .status-bar-fake { display: none !important; }
 
-    /* CORREÇÃO NAVBAR DESKTOP:
-       Em vez de tentar posicionar com left/transform, usamos flexbox no container pai
-       para centralizar. Mas como é absolute, garantimos width 100% do pai.
-    */
     .bottom-nav-wrapper {
         position: absolute;
         bottom: 30px;
         left: 0;
         width: 100%;
         display: flex;
-        justify-content: center; /* Garante o centro */
+        justify-content: center;
         pointer-events: none;
     }
 }
@@ -306,8 +302,7 @@ body {
 .suggestion-icon { color: var(--primary-green); font-size: 1.8rem; }
 .suggestion-text { font-size: 0.75rem; color: var(--primary-green); font-weight: bold; line-height: 1.2; }
 
-/* --- MENU INFERIOR FLUTUANTE (CORREÇÃO FINAL) --- */
-/* Usamos a mesma lógica para Mobile e Desktop para garantir consistência */
+/* --- MENU INFERIOR FLUTUANTE --- */
 .bottom-nav-wrapper {
     position: absolute;
     bottom: 25px;
@@ -326,7 +321,7 @@ body {
     max-width: 350px;
     border-radius: 35px;
     display: flex;
-    justify-content: space-between; /* Distribui os itens igualmente */
+    justify-content: space-between;
     align-items: center;
     box-shadow: 0 10px 25px rgba(0, 179, 126, 0.4);
     padding: 0 20px;
@@ -347,10 +342,9 @@ body {
 }
 .nav-item:hover, .nav-item.active { color: white; }
 
-/* MUDANÇA AQUI: Diminui o top para baixar o botão central */
 .nav-center {
     position: relative;
-    top: 0px; /* Era -30px. Agora está mais baixo. */
+    top: 0px;
 }
 
 .nav-center-circle {
@@ -362,7 +356,7 @@ body {
     align-items: center;
     justify-content: center;
     box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-    border: 5px solid #f8f9fa; /* Borda que "corta" o fundo */
+    border: 5px solid #f8f9fa;
     transition: transform 0.2s;
     cursor: pointer;
 }
@@ -389,7 +383,7 @@ body {
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    background-color: white; /* Fundo branco */
+    background-color: white;
     border: 3px solid var(--primary-green);
     padding: 3px;
     background-clip: content-box;
@@ -398,9 +392,8 @@ body {
     justify-content: center;
     position: relative;
 
-    /* Estilo do Ícone */
     color: var(--primary-green);
-    font-size: 3rem; /* Ícone grande */
+    font-size: 3rem;
     overflow: hidden;
 }
 
@@ -423,23 +416,22 @@ body {
     align-items: center;
     margin-bottom: 25px;
 
-    /* Adicionado para a transição suave */
     border: 1px solid transparent;
     transition: all 0.2s ease;
     cursor: pointer;
 }
 
 .points-card:hover {
-    background-color: white; /* Opcional: Fica branco no hover para destacar */
-    border-color: var(--primary-green); /* Borda Verde */
-    box-shadow: 0 4px 10px rgba(0,179,126,0.15); /* Sombra Verde Suave */
-    transform: translateY(-2px); /* Leve elevação */
+    background-color: white;
+    border-color: var(--primary-green);
+    box-shadow: 0 4px 10px rgba(0,179,126,0.15);
+    transform: translateY(-2px);
 }
 .points-title { color: #666; font-size: 0.9rem; margin-bottom: 2px; }
 .points-value { color: var(--primary-green); font-weight: bold; font-size: 1.1rem; display: flex; align-items: center; gap: 5px; }
 
 .profile-menu-btn {
-    background-color: #f1f1f1; border: 1px solid transparent; /* Prepara borda */
+    background-color: #f1f1f1; border: 1px solid transparent;
     border-radius: 12px; padding: 15px 20px; width: 100%;
     display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;
     color: #333; font-weight: 500; text-decoration: none; transition: all 0.2s ease;
@@ -460,12 +452,11 @@ body {
 }
 .location-card:hover { transform: translateY(-2px); border-color: var(--primary-green); }
 
-/* --- NOVO: Card do Mapa --- */
+/* --- Card do Mapa --- */
 .map-card {
     background: white;
     border-radius: 16px;
 
-    /* MUDANÇA: Padding para criar a borda branca */
     padding: 8px;
 
     border: 1px solid #eee;
@@ -475,7 +466,6 @@ body {
     width: 100%;
     position: relative;
 
-    /* Efeito de Hover para consistência */
     transition: transform 0.2s, border-color 0.2s;
     cursor: pointer;
 }
@@ -491,6 +481,5 @@ body {
     border: none;
     display: block;
 
-    /* Arredondamento interno para casar com a borda */
     border-radius: 10px;
 }

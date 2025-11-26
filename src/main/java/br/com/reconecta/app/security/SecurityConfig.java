@@ -1,4 +1,4 @@
-package br.com.reconecta.app.config;
+package br.com.reconecta.app.security;
 
 import br.com.reconecta.app.security.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,18 +42,15 @@ public class SecurityConfig {
                                 "/webjars/**",
                                 "/error"
                         ).permitAll()
-
-                        // --- ROTAS PRIVADAS (Exige Login) ---
-                        // Tudo o que não está na lista acima (ex: /home, /perfil) cai aqui
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
                         .usernameParameter("username")
                         .passwordParameter("senha")
-                        .loginPage("/login")               // Nossa página HTML de login
-                        .loginProcessingUrl("/login")      // URL para onde o form envia o POST
-                        .defaultSuccessUrl("/home", true)  // Se der certo, vai para a Home
-                        .failureUrl("/login?error=true")   // Se der errado, volta com erro
+                        .loginPage("/login")
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/home", true)
+                        .failureUrl("/login?error=true")
                         .permitAll()
                 )
                 .logout((logout) -> logout
