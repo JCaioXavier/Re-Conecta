@@ -1,6 +1,4 @@
 package br.com.reconecta.app.dto;
-
-// Importações necessárias para validação (se der erro, adicione a dependência spring-boot-starter-validation no pom.xml)
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
